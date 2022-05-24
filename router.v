@@ -28,6 +28,7 @@ mut:
 	handlers map[http.Method]HandlerFn
 }
 
+// register the router middleware
 pub fn (mut r Router) get_routes(mut ctx Ctx) {
 	url := urllib.parse(ctx.req.url) or {
 		ctx.res = default_res(.internal_server_error)
@@ -47,6 +48,7 @@ pub fn (mut r Router) get_routes(mut ctx Ctx) {
 	}
 }
 
+// get the route for the given path
 fn (r Router) get_route(path string) ?Route {
 	routes: for _, route in r.routes {
 		parts := path.split('/')[1..]
@@ -77,6 +79,7 @@ fn (r Router) get_route(path string) ?Route {
 	return none
 }
 
+// register a new route
 fn (mut r Router) add_route(method http.Method, path string, cb HandlerFn) {
 	parsed_path, params := parse_path(path)
 	if path in r.routes {
@@ -94,6 +97,7 @@ fn (mut r Router) add_route(method http.Method, path string, cb HandlerFn) {
 	}
 }
 
+// register a new route with multiple methods
 pub fn (mut r Router) all(path string, cb HandlerFn) {
 	parsed_path, params := parse_path(path)
 	r.routes[path] = Route{
@@ -106,42 +110,52 @@ pub fn (mut r Router) all(path string, cb HandlerFn) {
 	}
 }
 
+// register a new route listening for the GET method
 pub fn (mut r Router) get(path string, cb HandlerFn) {
 	r.add_route(.get, path, cb)
 }
 
+// register a new route listening for the POST method
 pub fn (mut r Router) post(path string, cb HandlerFn) {
 	r.add_route(.post, path, cb)
 }
 
+// register a new route listening for the PUT method
 pub fn (mut r Router) put(path string, cb HandlerFn) {
 	r.add_route(.put, path, cb)
 }
 
+// register a new route listening for the HEAD method
 pub fn (mut r Router) head(path string, cb HandlerFn) {
 	r.add_route(.head, path, cb)
 }
 
+// register a new route listening for the DELETE method
 pub fn (mut r Router) delete(path string, cb HandlerFn) {
 	r.add_route(.delete, path, cb)
 }
 
+// register a new route listening for the OPTIONS method
 pub fn (mut r Router) options(path string, cb HandlerFn) {
 	r.add_route(.options, path, cb)
 }
 
+// register a new route listening for the TRACE method
 pub fn (mut r Router) trace(path string, cb HandlerFn) {
 	r.add_route(.trace, path, cb)
 }
 
+// register a new route listening for the CONNECT method
 pub fn (mut r Router) connect(path string, cb HandlerFn) {
 	r.add_route(.connect, path, cb)
 }
 
+// register a new route listening for the PATH method
 pub fn (mut r Router) patch(path string, cb HandlerFn) {
 	r.add_route(.patch, path, cb)
 }
 
+// parse a path into a parsed route and params
 fn parse_path(path string) (ParsedRoute, Params) {
 	mut parsed_route := ParsedRoute(map[PathCond]string{})
 	mut params := Params(map[string][]string{})
@@ -173,6 +187,7 @@ fn parse_path(path string) (ParsedRoute, Params) {
 	return parsed_route, params
 }
 
+// default response for a given status code
 fn default_res(status http.Status) http.Response {
 	return http.new_response(
 		status: status
