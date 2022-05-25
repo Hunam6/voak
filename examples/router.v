@@ -1,4 +1,4 @@
-import voak
+import hunam6.voak
 
 fn main() {
 	mut app := voak.App{}

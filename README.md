@@ -5,7 +5,7 @@
 
 ## Installation
 ```cmd
-v install hunam6.voak
+v install Hunam6.Voak
 ```
 
 ## Usage
