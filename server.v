@@ -2,7 +2,6 @@ module voak
 
 import net
 import net.http
-import net.urllib
 import time
 import io
 
