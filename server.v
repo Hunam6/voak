@@ -32,6 +32,11 @@ pub struct Config {
 	silent bool
 }
 
+[params]
+pub struct RedirectConfig {
+	status http.Status = .found
+}
+
 type HandlerFn = fn (mut ctx Ctx)
 
 // listen and serve
@@ -91,4 +96,10 @@ pub fn (mut app App) use(middleware ...HandlerFn) {
 	for m in middleware {
 		app.middlewares << m
 	}
+}
+
+// add middleware(s)
+pub fn (mut ctx Ctx) redirect(path string, cfg RedirectConfig) {
+	ctx.res.set_status(cfg.status)
+	ctx.res.header.add(.location, path)
 }
