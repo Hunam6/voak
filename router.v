@@ -55,10 +55,10 @@ fn (r Router) get_route(path string) ?Route {
 		mut params := route.params
 
 		for cond, val in route.parsed {
-			part := parts[idx]
+			part := parts[idx] or { continue routes }
 			last_cond = cond
 
-			if cond == .ignore || (cond == .same && part != val)
+			if (cond == .same && part != val)
 				|| (cond == .starts && !part.starts_with(val))
 				|| (cond == .ends && !part.ends_with(val))
 				|| (cond == .contains && !part.contains(val)) {
