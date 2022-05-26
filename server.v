@@ -10,6 +10,8 @@ pub struct App {
 pub mut:
 	ctx         Ctx
 	middlewares []HandlerFn
+mut:
+	tcp_listener &net.TcpListener = 0
 }
 
 pub struct Ctx {
@@ -34,7 +36,7 @@ type HandlerFn = fn (mut ctx Ctx)
 
 // listen and serve
 pub fn (mut app App) listen(cfg Config) ? {
-	mut listener := net.listen_tcp(.ip6, '$cfg.host:$cfg.port') or {
+	app.tcp_listener = net.listen_tcp(.ip6, '$cfg.host:$cfg.port') or {
 		return error('Failed to listen to port $cfg.port')
 	}
 	if !cfg.silent {
@@ -43,12 +45,18 @@ pub fn (mut app App) listen(cfg Config) ? {
 	}
 
 	for {
-		mut conn := listener.accept() or {
-			eprintln('Failed to accept connection: $err.msg()')
-			continue
+		mut conn := app.tcp_listener.accept() or {
+			// server closed
+			break
 		}
 		handle_conn(mut app, mut conn)?
 	}
+}
+
+// close the server
+pub fn (mut app App) abort() {
+	app.tcp_listener.close() or { eprintln('Failed to close the server') }
+	eprintln('Voak is shutting down')
 }
 
 // handle a connection
