@@ -71,6 +71,11 @@ fn handle_conn(mut app App, mut conn net.TcpConn) ? {
 		middleware(mut app.ctx)
 	}
 
+	// TODO: maybe replace with `res.done`
+	if app.ctx.res == http.Response{} {
+		app.ctx.res = default_res(.not_found)
+	}
+
 	conn.write(app.ctx.res.bytes()) or { return error('Failed to write response: $err.msg()') }
 }
 

@@ -43,8 +43,6 @@ pub fn (mut r Router) get_routes(mut ctx Ctx) {
 		} else {
 			ctx.res = default_res(.method_not_allowed)
 		}
-	} else {
-		ctx.res = default_res(.not_found)
 	}
 }
 
@@ -185,16 +183,4 @@ fn parse_path(path string) (ParsedRoute, Params) {
 	}
 
 	return parsed_route, params
-}
-
-// default response for a given status code
-fn default_res(status http.Status) http.Response {
-	return http.new_response(
-		status: status
-		text: '$status.int() - $status.str()' // eg: "404 - Not Found"
-		header: http.new_header(
-			key: .content_type
-			value: 'text/plain'
-		)
-	)
 }

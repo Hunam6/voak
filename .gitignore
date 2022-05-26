@@ -1,3 +1,6 @@
 .DS_Store
 *.dSYM/
 vls.log
+/examples/*
+!/examples/*/
+!/examples/*.v
