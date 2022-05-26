@@ -28,9 +28,7 @@ fn file_res(file_path string) http.Response {
 		return default_res(.internal_server_error)
 	}
 	// MIME type
-	if mime_type := mime.get_mime_type(os.file_ext(file_path)[1..]) {
-		res.header.set(.content_type, mime.get_content_type(mime_type) or { '' }) // note: it'll never fallback to `or`
-	}
+	res.header.set(.content_type, mime.get_content_type(mime.get_mime_type(os.file_ext(file_path)[1..])))
 	// ETag
 	res.header.set(.etag, sha1.hexhash(res.text))
 	// Last-Modified
