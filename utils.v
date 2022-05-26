@@ -18,6 +18,7 @@ fn default_res(status http.Status) http.Response {
 	)
 }
 
+// craft the response of file located in the given file path
 fn file_res(file_path string) http.Response {
 	mut res := http.Response{}
 
