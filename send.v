@@ -4,8 +4,7 @@ import os
 
 [params]
 pub struct SendOpt {
-	index     string // file served at `/`
-	immutable bool   // TODO: support
+	index string // file served at `/`
 }
 
 // serve static file(s)
