@@ -2,9 +2,9 @@ module voak
 
 import net.http
 import net.http.mime
-import os
 import crypto.sha1
 import time
+import os
 
 // default response for a given status code
 fn default_res(status http.Status) http.Response {

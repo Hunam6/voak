@@ -2,6 +2,7 @@ module voak
 
 import net
 import net.http
+import net.urllib
 import time
 import io
 import os
@@ -124,4 +125,25 @@ pub fn (mut ctx Ctx) send(dir_path string, mount_path string, opt SendOpt) {
 			}
 		}
 	}
+}
+
+// helper to get the queries
+pub fn (ctx Ctx) get_query() map[string]string {
+	mut out := map[string]string{}
+
+	// params queries
+	for key, val in ctx.params {
+		out[key] = val[0]
+	}
+
+	// URL queries
+	if url := urllib.parse(ctx.req.url) {
+		if raw_query := urllib.parse_query(url.raw_query) {
+			for data in raw_query.data {
+				out[data.key] = data.value
+			}
+		}
+	}
+
+	return out
 }
