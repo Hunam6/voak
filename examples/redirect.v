@@ -5,7 +5,7 @@ fn main() {
 	mut router := voak.Router{}
 
 	router.get('/', fn (mut ctx voak.Ctx) {
-		ctx.res.text = 'hello'
+		ctx.res.body = 'hello'
 	})
 	router.get('/redirect', fn (mut ctx voak.Ctx) {
 		ctx.redirect('https://github.com/hunam6/voak')

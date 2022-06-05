@@ -5,7 +5,7 @@ fn main() {
 	mut router := voak.Router{}
 
 	router.get('/', fn (mut ctx voak.Ctx) {
-		ctx.res.text = 'hello'
+		ctx.res.body = 'hello'
 	})
 	router.get('/close', fn (mut ctx voak.Ctx) {
 		ctx.app.abort()

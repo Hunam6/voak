@@ -5,12 +5,12 @@ fn main() {
 	mut router := voak.Router{}
 
 	router.get('/', fn (mut ctx voak.Ctx) {
-		ctx.res.text = 'home'
+		ctx.res.body = 'home'
 	})
 	router.get('/complex/:name/*path*', fn (mut ctx voak.Ctx) {
 		// test with `http://localhost:8080/complex/abc/apathfs?q=minecraft&sure=yes&name=john`
 		params := ctx.get_query()
-		ctx.res.text = params.str()
+		ctx.res.body = params.str()
 	})
 
 	app.use(router.get_routes)
