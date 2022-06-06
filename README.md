@@ -5,13 +5,6 @@
 
 ## Installation
 
-⚠️ Voak make use of the `net.http.mime` module which isn't currently merged to V master. Consequently you must temporally checkout your V installation to https://github.com/Hunam6/v/tree/mime using:
-```
-cd <v_dir>
-git remote add mime https://github.com/hunam6/v
-git checkout mime
-```
-
 ```
 v install Hunam6.Voak
 ```
